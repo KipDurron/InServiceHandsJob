@@ -39,6 +39,7 @@ class DemiurgeView: UIView {
     var gradientLayer = GradientUtils.makePageBackgroundGradient(frame: .zero)
     
     private func setupView() {
+        layer.insertSublayer(gradientLayer, at: 0)
         addSubview(titleLabel)
         addSubview(collectionView)
         addSubview(createButton)
@@ -80,7 +81,6 @@ class DemiurgeView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = bounds
-        layer.insertSublayer(gradientLayer, at: 0)
     }
     
     init() {
