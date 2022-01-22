@@ -71,7 +71,7 @@ class DemiurgeViewController: UIViewController {
     private func deleteLifeCell() {
         guard cellArray.count >= 4 else {return}
         
-        let lastIndexArray = cellArray.count-1
+        let lastIndexArray = cellArray.count - 1
         let previousNotDeadCellIndex = lastIndexArray - 3
         let previousNotDeadCellIndexPath = IndexPath(row: previousNotDeadCellIndex, section: Constants.numberOfSection)
         if cellArray[previousNotDeadCellIndex] == .life {
