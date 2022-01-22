@@ -9,6 +9,14 @@ import UIKit
 
 class DemiurgeCell: UICollectionViewCell {
     
+    var gradientLayer = GradientUtils
+        .makeGradientLayer(frame: .init(x: Constraints.startGradientCoordinate,
+                                        y: Constraints.startGradientCoordinate,
+                                        width: Constraints.imageLabelWidth,
+                                        height: Constraints.imageLabelWidth),
+                           from: ColorSetting.mainBackground.get,
+                           to: .black)
+    
     var contentImageLabel: UILabel = {
         let contentImageLabel = UILabel()
         contentImageLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -36,8 +44,6 @@ class DemiurgeCell: UICollectionViewCell {
         return descriptionLabel
     }()
     
-    var gradientLayer: CAGradientLayer?
-    
     override init(frame: CGRect = .zero) {
         super.init(frame: .zero)
         setupView()
@@ -48,6 +54,7 @@ class DemiurgeCell: UICollectionViewCell {
     }
     
     private func setupView() {
+        imageLabel.layer.addSublayer(gradientLayer)
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = Size.cornerRadiusCell
         contentView.addSubview(imageLabel)
@@ -103,10 +110,6 @@ class DemiurgeCell: UICollectionViewCell {
         ])
     }
     
-    override func layoutSubviews() {
-        gradientLayer?.frame = imageLabel.bounds
-    }
-    
 }
 
 // MARK: Factory
@@ -139,26 +142,23 @@ extension DemiurgeCell {
             colorGradientStart = ColorSetting.lifeLabelGradientStart.get
             colorGradientEnd = ColorSetting.lifeLabelGradientEnd.get
         }
-        
-        titleLabel.attributedText = AttributedStringUtils
-            .makeAttributedString(text: titleText,
-                                  font: .titleBold(size: Font.titleSize),
-                                  lineHeight: Font.titleLineHeight)
-        descriptionLabel.attributedText = AttributedStringUtils
-            .makeAttributedString(text: descriptionText,
-                                  font: .description(size: Font.descriptionSize),
-                                  lineHeight: Font.descriptionLineHeight)
-        contentImageLabel.attributedText = AttributedStringUtils
-            .makeAttributedString(text: contentImageLabelText,
-                                  font: .titleBold(size: Font.contentImageLabelSize),
-                                  lineHeight: Font.contentImageLabelLineHeight,
-                                  alignment: .center)
-        gradientLayer = GradientUtils.makeGradientLayer(frame: .zero,
-                                                        from: colorGradientStart,
-                                                        to: colorGradientEnd)
-        if let gradientLayer = gradientLayer {
-            imageLabel.layer.insertSublayer(gradientLayer, at: 0)
-            imageLabel.layoutIfNeeded()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else {return}
+            self.titleLabel.attributedText = AttributedStringUtils
+                .makeAttributedString(text: titleText,
+                                      font: .titleBold(size: Font.titleSize),
+                                      lineHeight: Font.titleLineHeight)
+            self.descriptionLabel.attributedText = AttributedStringUtils
+                .makeAttributedString(text: descriptionText,
+                                      font: .description(size: Font.descriptionSize),
+                                      lineHeight: Font.descriptionLineHeight)
+            self.contentImageLabel.attributedText = AttributedStringUtils
+                .makeAttributedString(text: contentImageLabelText,
+                                      font: .titleBold(size: Font.contentImageLabelSize),
+                                      lineHeight: Font.contentImageLabelLineHeight,
+                                      alignment: .center)
+            self.gradientLayer.colors = [colorGradientStart.cgColor, colorGradientEnd.cgColor]
+            
         }
     }
 }
@@ -202,6 +202,8 @@ extension DemiurgeCell {
         static let descriptionLabelBottom: CGFloat = 9
         
         static let correctToYCenterContent: CGFloat = 2
+        
+        static let startGradientCoordinate: CGFloat = 0
     }
     
     enum Size {
