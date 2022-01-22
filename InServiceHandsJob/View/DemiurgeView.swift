@@ -9,6 +9,8 @@ import UIKit
 
 class DemiurgeView: UIView {
     
+    //MARK: properties
+    
     var titleLabel: UILabel = {
         let titleLable = UILabel()
         titleLable.translatesAutoresizingMaskIntoConstraints = false
@@ -33,53 +35,14 @@ class DemiurgeView: UIView {
         createButton.setTitleColor(.white, for: .normal)
         createButton.setAttributedTitle(AttributedStringUtils.makeCreateButtonAttributed(), for: .normal)
         createButton.backgroundColor = ColorSetting.createButton.get
-        createButton.layer.cornerRadius = CornerRadius.button.rawValue
+        createButton.layer.cornerRadius = CornerRadius.button
         return createButton
     }()
     
     var gradientLayer = GradientUtils.makeGradientLayer(frame: .zero,
                                                         from: ColorSetting.mainBackground.get,
                                                         to: .black)
-    
-    private func setupView() {
-        layer.insertSublayer(gradientLayer, at: 0)
-        addSubview(titleLabel)
-        addSubview(collectionView)
-        addSubview(createButton)
-        setupConstraintsTilte()
-        setupConstraintsCollection()
-        setupConstraintsCreateButton()
-        
-    }
-    
-    private func setupConstraintsTilte() {
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
-                                            constant: Constraints.titleTop.rawValue),
-            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constraints.titleLeading.rawValue),
-            titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: Constraints.titleTrailing.rawValue)
-            
-        ])
-    }
-    
-    private func setupConstraintsCollection() {
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constraints.collectionTop.rawValue),
-            collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
-        ])
-    }
-    
-    private func setupConstraintsCreateButton() {
-        NSLayoutConstraint.activate([
-            createButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor,
-                                              constant: Constraints.collectionTop.rawValue),
-            createButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constraints.createButtonLeading.rawValue),
-            createButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: Constraints.createButtonTrailing.rawValue),
-            createButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Constraints.collectionTrailing.rawValue),
-            createButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Size.heightCreateBotton.rawValue)
-        ])
-    }
+    //MARK: LifeCycle
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -97,17 +60,59 @@ class DemiurgeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: Private
+    
+    private func setupView() {
+        layer.insertSublayer(gradientLayer, at: 0)
+        addSubview(titleLabel)
+        addSubview(collectionView)
+        addSubview(createButton)
+        setupConstraintsTilte()
+        setupConstraintsCollection()
+        setupConstraintsCreateButton()
+        
+    }
+    
+    private func setupConstraintsTilte() {
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor,
+                                            constant: Constraints.titleTop),
+            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constraints.titleLeading),
+            titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: Constraints.titleTrailing)
+            
+        ])
+    }
+    
+    private func setupConstraintsCollection() {
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constraints.collectionTop),
+            collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+        ])
+    }
+    
+    private func setupConstraintsCreateButton() {
+        NSLayoutConstraint.activate([
+            createButton.topAnchor.constraint(equalTo: collectionView.bottomAnchor,
+                                              constant: Constraints.collectionTop),
+            createButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: Constraints.createButtonLeading),
+            createButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: Constraints.createButtonTrailing),
+            createButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: Constraints.collectionTrailing),
+            createButton.heightAnchor.constraint(greaterThanOrEqualToConstant: Size.heightCreateBotton)
+        ])
+    }
+    
 }
 
 // MARK: Extension
 
 extension DemiurgeView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width - Size.leftSpaceCell.rawValue*2, height: Size.cellHeight.rawValue)
+        return CGSize(width: collectionView.frame.width - Size.leftSpaceCell*2, height: Size.cellHeight)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        Size.spaceBetweenCell.rawValue
+        Size.spaceBetweenCell
     }
     
 }
@@ -117,24 +122,24 @@ extension DemiurgeView: UICollectionViewDelegateFlowLayout {
 private extension DemiurgeView {
     
     
-    enum Size: CGFloat {
-        case cellHeight = 72
-        case spaceBetweenCell = 4
-        case leftSpaceCell = 16
-        case heightCreateBotton = 36
+    enum Size {
+        static let cellHeight: CGFloat = 72
+        static let spaceBetweenCell: CGFloat = 4
+        static let leftSpaceCell: CGFloat = 16
+        static let heightCreateBotton: CGFloat = 36
     }
     
-    enum Constraints: CGFloat {
-        case collectionTop = 22
-        case titleTop = 16
-        case collectionTrailing = -16
-        case titleLeading = 74
-        case titleTrailing = 15
-        case createButtonLeading = 14
-        case createButtonTrailing = -14
+    enum Constraints {
+        static let collectionTop: CGFloat = 22
+        static let titleTop: CGFloat = 16
+        static let collectionTrailing: CGFloat = -16
+        static let titleLeading: CGFloat = 74
+        static let titleTrailing: CGFloat = 15
+        static let createButtonLeading: CGFloat = 14
+        static let createButtonTrailing: CGFloat = -14
     }
     
-    enum CornerRadius: CGFloat {
-        case button = 4
+    enum CornerRadius {
+        static let button: CGFloat = 4
     }
 }

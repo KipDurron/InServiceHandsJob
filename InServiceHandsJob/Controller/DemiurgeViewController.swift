@@ -29,10 +29,9 @@ class DemiurgeViewController: UIViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        guard let flowLayout = demiurgeView.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
-            return
-        }
-        flowLayout.invalidateLayout()
+        coordinator.animate(
+            alongsideTransition: { _ in self.demiurgeView.collectionView.collectionViewLayout.invalidateLayout() }
+        )
     }
     
     //MARK: Private
@@ -116,7 +115,7 @@ extension DemiurgeViewController: UICollectionViewDataSource {
 
 //MARK: Constants
 
-extension DemiurgeViewController {
+private extension DemiurgeViewController {
     
     enum Constants {
         static let numberOfSection = 0

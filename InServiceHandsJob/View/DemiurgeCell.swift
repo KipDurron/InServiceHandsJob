@@ -9,10 +9,22 @@ import UIKit
 
 class DemiurgeCell: UICollectionViewCell {
     
-    var gradientLayer = GradientUtils
-        .makeGradientLayer(frame: .zero,
-                           from: ColorSetting.mainBackground.get,
-                           to: .black)
+    //MARK: properties
+    
+    var gradientLayer: CAGradientLayer = {
+        let gradientLayer = GradientUtils
+            .makeGradientLayer(frame: .zero,
+                               from: ColorSetting.mainBackground.get,
+                               to: .black, locations: [GradientSetting.locationFirst, GradientSetting.locationLast],
+                               startPoint: GradientSetting.startPoint, endPoint: GradientSetting.endPoint)
+        gradientLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: GradientTransform.a,
+                                                                                     b: GradientTransform.b,
+                                                                                     c: GradientTransform.c,
+                                                                                     d: GradientTransform.d,
+                                                                                     tx: GradientTransform.tx,
+                                                                                     ty: GradientTransform.ty))
+        return gradientLayer
+    }()
     
     var contentImageLabel: UILabel = {
         let contentImageLabel = UILabel()
@@ -41,6 +53,8 @@ class DemiurgeCell: UICollectionViewCell {
         return descriptionLabel
     }()
     
+    //MARK: LifeCycle
+    
     override init(frame: CGRect = .zero) {
         super.init(frame: .zero)
         setupView()
@@ -49,6 +63,8 @@ class DemiurgeCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: Private
     
     private func setupView() {
         imageLabel.layer.addSublayer(gradientLayer)
@@ -109,7 +125,7 @@ class DemiurgeCell: UICollectionViewCell {
     
 }
 
-// MARK: Factory
+// MARK: Utils
 
 extension DemiurgeCell {
     
@@ -165,7 +181,7 @@ extension DemiurgeCell {
 
 // MARK: Constants
 
-extension DemiurgeCell {
+private extension DemiurgeCell {
     
     enum Text {
         static let deadTitle = "Мёртвая"
@@ -208,5 +224,21 @@ extension DemiurgeCell {
     
     enum Size {
         static let cornerRadiusCell: CGFloat = 8
+    }
+    
+    enum GradientTransform {
+        static let a: CGFloat = 0
+        static let b: CGFloat = 1
+        static let c: CGFloat = -1
+        static let d: CGFloat = 0
+        static let tx: CGFloat = 1
+        static let ty: CGFloat = 0
+    }
+    
+    enum GradientSetting {
+        static let startPoint = CGPoint(x: 0.25, y: 0.5)
+        static let endPoint = CGPoint(x: 0.75, y: 0.5)
+        static let locationFirst: NSNumber = 0
+        static let locationLast: NSNumber = 1
     }
 }
