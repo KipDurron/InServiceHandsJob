@@ -32,7 +32,10 @@ class DemiurgeViewController: UIViewController {
     @objc private func createButtonAction() {
         let newTypeCell = TypeCell.getRandomType()
         insertInCollection(newTypeCell: newTypeCell)
-        
+        mainLogicCells(newTypeCell: newTypeCell)
+    }
+    
+    private func mainLogicCells(newTypeCell: TypeCell) {
         if let previousTypeCell = previousTypeCell,
            newTypeCell == previousTypeCell {
             serialCellCount += 1
@@ -52,9 +55,6 @@ class DemiurgeViewController: UIViewController {
                 deleteLifeCell()
             }
         }
-        
-        
-        
     }
     
     private func deleteLifeCell() {
@@ -68,11 +68,11 @@ class DemiurgeViewController: UIViewController {
     }
     
     private func insertInCollection(newTypeCell: TypeCell) {
-        demiurgeView.collectionView.performBatchUpdates({
-            let indexPath = IndexPath(row: cellArray.count, section: Constants.numberOfSection)
-            cellArray.append(newTypeCell)
-            demiurgeView.collectionView.insertItems(at: [indexPath])
-        }, completion: nil)
+        
+        let indexPath = IndexPath(row: cellArray.count, section: Constants.numberOfSection)
+        cellArray.append(newTypeCell)
+        demiurgeView.collectionView.insertItems(at: [indexPath])
+        
         scrollCollectionViewToBottom()
     }
     
