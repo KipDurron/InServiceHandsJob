@@ -12,16 +12,77 @@ class DemiurgeViewController: UIViewController {
     lazy var demiurgeView = DemiurgeView()
     var cellArray = [TypeCell]()
     
+    var serialCellCount = 0
+    var previousTypeCell: TypeCell?
+    
     override func loadView() {
         view = demiurgeView
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        cellArray = [.alive, .dead, .life,.alive, .dead, .life,.alive, .dead, .life,.alive, .dead, .life,.alive, .dead, .life]
         demiurgeView.collectionView.dataSource = self
+        setupAction()
     }
-
+    
+    private func setupAction() {
+        demiurgeView.createButton.addTarget(self, action: #selector(createButtonAction), for: .touchUpInside)
+    }
+    
+    @objc private func createButtonAction() {
+        let newTypeCell = TypeCell.getRandomType()
+        insertInCollection(newTypeCell: newTypeCell)
+        
+        if let previousTypeCell = previousTypeCell,
+           newTypeCell == previousTypeCell {
+            serialCellCount += 1
+        } else {
+            self.previousTypeCell = newTypeCell
+            serialCellCount = 1
+        }
+        
+        if serialCellCount == 3 {
+            serialCellCount = 0
+            if let previousTypeCell = previousTypeCell,
+               previousTypeCell == .alive {
+                insertInCollection(newTypeCell: .life)
+            }
+            if let previousTypeCell = previousTypeCell,
+               previousTypeCell == .dead {
+                deleteLifeCell()
+            }
+        }
+        
+        
+        
+    }
+    
+    private func deleteLifeCell() {
+        let lastIndexArray = cellArray.count-1
+        let previousNotDeadCellIndex = lastIndexArray - 3
+        let previousNotDeadCellIndexPath = IndexPath(row: previousNotDeadCellIndex, section: Constants.numberOfSection)
+        if cellArray[previousNotDeadCellIndex] == .life {
+            cellArray.remove(at: previousNotDeadCellIndex)
+            demiurgeView.collectionView.deleteItems(at: [previousNotDeadCellIndexPath])
+        }
+    }
+    
+    private func insertInCollection(newTypeCell: TypeCell) {
+        demiurgeView.collectionView.performBatchUpdates({
+            let indexPath = IndexPath(row: cellArray.count, section: Constants.numberOfSection)
+            cellArray.append(newTypeCell)
+            demiurgeView.collectionView.insertItems(at: [indexPath])
+        }, completion: nil)
+        scrollCollectionViewToBottom()
+    }
+    
+    private func scrollCollectionViewToBottom() {
+        let lastItemIndex = demiurgeView.collectionView.numberOfItems(inSection: Constants.numberOfSection) - 1
+        let indexPath: IndexPath = .init(item: lastItemIndex, section: Constants.numberOfSection)
+        demiurgeView.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+    }
+    
+    
 }
 
 
@@ -34,12 +95,19 @@ extension DemiurgeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DemiurgeCell", for: indexPath) as! DemiurgeCell
         let typeCell = cellArray[indexPath.row]
-        DispatchQueue.global(qos: .userInteractive).async {
-            cell.configContent(type: typeCell)
-        }
+        cell.configContent(type: typeCell)
         return cell
     }
     
     
+}
+
+//MARK: Constants
+
+extension DemiurgeViewController {
+    
+    enum Constants {
+        static let numberOfSection = 0
+    }
 }
 

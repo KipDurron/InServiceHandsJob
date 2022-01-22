@@ -86,6 +86,7 @@ class DemiurgeView: UIView {
         gradientLayer.frame = bounds
     }
     
+    
     init() {
         super.init(frame: .zero)
         collectionView.delegate = self

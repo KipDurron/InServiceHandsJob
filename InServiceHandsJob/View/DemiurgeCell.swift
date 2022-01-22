@@ -10,10 +10,7 @@ import UIKit
 class DemiurgeCell: UICollectionViewCell {
     
     var gradientLayer = GradientUtils
-        .makeGradientLayer(frame: .init(x: Constraints.startGradientCoordinate,
-                                        y: Constraints.startGradientCoordinate,
-                                        width: Constraints.imageLabelWidth,
-                                        height: Constraints.imageLabelWidth),
+        .makeGradientLayer(frame: .zero,
                            from: ColorSetting.mainBackground.get,
                            to: .black)
     
@@ -142,24 +139,27 @@ extension DemiurgeCell {
             colorGradientStart = ColorSetting.lifeLabelGradientStart.get
             colorGradientEnd = ColorSetting.lifeLabelGradientEnd.get
         }
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else {return}
-            self.titleLabel.attributedText = AttributedStringUtils
-                .makeAttributedString(text: titleText,
-                                      font: .titleBold(size: Font.titleSize),
-                                      lineHeight: Font.titleLineHeight)
-            self.descriptionLabel.attributedText = AttributedStringUtils
-                .makeAttributedString(text: descriptionText,
-                                      font: .description(size: Font.descriptionSize),
-                                      lineHeight: Font.descriptionLineHeight)
-            self.contentImageLabel.attributedText = AttributedStringUtils
-                .makeAttributedString(text: contentImageLabelText,
-                                      font: .titleBold(size: Font.contentImageLabelSize),
-                                      lineHeight: Font.contentImageLabelLineHeight,
-                                      alignment: .center)
-            self.gradientLayer.colors = [colorGradientStart.cgColor, colorGradientEnd.cgColor]
-            
-        }
+        
+        self.titleLabel.attributedText = AttributedStringUtils
+            .makeAttributedString(text: titleText,
+                                  font: .titleBold(size: Font.titleSize),
+                                  lineHeight: Font.titleLineHeight)
+        self.descriptionLabel.attributedText = AttributedStringUtils
+            .makeAttributedString(text: descriptionText,
+                                  font: .description(size: Font.descriptionSize),
+                                  lineHeight: Font.descriptionLineHeight)
+        self.contentImageLabel.attributedText = AttributedStringUtils
+            .makeAttributedString(text: contentImageLabelText,
+                                  font: .titleBold(size: Font.contentImageLabelSize),
+                                  lineHeight: Font.contentImageLabelLineHeight,
+                                  alignment: .center)
+        self.gradientLayer.colors = [colorGradientStart.cgColor, colorGradientEnd.cgColor]
+        self.gradientLayer.frame = .init(x: Constraints.startGradientCoordinate,
+                                         y: Constraints.startGradientCoordinate,
+                                         width: Constraints.imageLabelWidth,
+                                         height: Constraints.imageLabelWidth)
+        
+        
     }
 }
 
