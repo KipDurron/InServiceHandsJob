@@ -15,6 +15,8 @@ class DemiurgeViewController: UIViewController {
     var serialCellCount = 0
     var previousTypeCell: TypeCell?
     
+    //MARK: LifeCycle
+    
     override func loadView() {
         view = demiurgeView
     }
@@ -24,6 +26,16 @@ class DemiurgeViewController: UIViewController {
         demiurgeView.collectionView.dataSource = self
         setupAction()
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        guard let flowLayout = demiurgeView.collectionView.collectionViewLayout as? UICollectionViewFlowLayout else {
+            return
+        }
+        flowLayout.invalidateLayout()
+    }
+    
+    //MARK: Private
     
     private func setupAction() {
         demiurgeView.createButton.addTarget(self, action: #selector(createButtonAction), for: .touchUpInside)
@@ -85,7 +97,7 @@ class DemiurgeViewController: UIViewController {
     
 }
 
-
+//MARK: CollectionDataSource
 
 extension DemiurgeViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
