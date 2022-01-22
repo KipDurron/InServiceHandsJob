@@ -27,6 +27,21 @@ class AttributedStringUtils {
                                   attributes: [.paragraphStyle: paragraphStyle,
                                                .font: FontSetting.titleBold(size: Size.buttonText.rawValue).get])
     }
+    
+    static func makeAttributedString(text: String,
+                                     font: FontSetting,
+                                     lineHeight: CGFloat,
+                                     alignment: NSTextAlignment? = nil) -> NSAttributedString {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.maximumLineHeight = lineHeight
+        paragraphStyle.minimumLineHeight = lineHeight
+        if let alignment = alignment {
+            paragraphStyle.alignment = alignment
+        }
+        return NSAttributedString(string: text,
+                                  attributes: [.paragraphStyle: paragraphStyle,
+                                               .font: font.get])
+    }
 }
 
 // MARK: Constants

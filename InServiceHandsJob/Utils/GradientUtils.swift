@@ -9,11 +9,10 @@ import UIKit
 
 class GradientUtils {
     
-    static func makePageBackgroundGradient(frame: CGRect) -> CAGradientLayer {
+    static func makeGradientLayer(frame: CGRect, from: UIColor, to: UIColor) -> CAGradientLayer {
         let gradientLayer = CAGradientLayer()
         gradientLayer.frame = frame
-        gradientLayer.colors = [ColorSetting.mainBackground.get.cgColor, UIColor.black.cgColor]
-        gradientLayer.locations = [0.0, 1.0]
+        gradientLayer.colors = [from.cgColor, to.cgColor]
         return gradientLayer
     }
 }

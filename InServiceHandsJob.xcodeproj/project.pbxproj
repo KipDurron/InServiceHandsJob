@@ -17,6 +17,8 @@
 		ECDC6365279AD7840003BD2F /* ColorSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC6364279AD7840003BD2F /* ColorSetting.swift */; };
 		ECDC6368279B10100003BD2F /* AttributedStringUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC6367279B10100003BD2F /* AttributedStringUtils.swift */; };
 		ECDC636A279B1C430003BD2F /* GradientUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC6369279B1C430003BD2F /* GradientUtils.swift */; };
+		ECDC636C279B39900003BD2F /* DemiurgeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC636B279B39900003BD2F /* DemiurgeCell.swift */; };
+		ECDC636F279B51220003BD2F /* TypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECDC636E279B51220003BD2F /* TypeCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		ECDC6364279AD7840003BD2F /* ColorSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSetting.swift; sourceTree = "<group>"; };
 		ECDC6367279B10100003BD2F /* AttributedStringUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringUtils.swift; sourceTree = "<group>"; };
 		ECDC6369279B1C430003BD2F /* GradientUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientUtils.swift; sourceTree = "<group>"; };
+		ECDC636B279B39900003BD2F /* DemiurgeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemiurgeCell.swift; sourceTree = "<group>"; };
+		ECDC636E279B51220003BD2F /* TypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				ECDC635F279ACECB0003BD2F /* DemiurgeView.swift */,
+				ECDC636B279B39900003BD2F /* DemiurgeCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -104,6 +109,7 @@
 		ECDC6361279AD1B40003BD2F /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				ECDC636E279B51220003BD2F /* TypeCell.swift */,
 				ECDC6362279AD1D10003BD2F /* FontSetting.swift */,
 				ECDC6364279AD7840003BD2F /* ColorSetting.swift */,
 			);
@@ -192,10 +198,12 @@
 				ECDC6368279B10100003BD2F /* AttributedStringUtils.swift in Sources */,
 				ECDC6365279AD7840003BD2F /* ColorSetting.swift in Sources */,
 				ECDC6363279AD1D10003BD2F /* FontSetting.swift in Sources */,
+				ECDC636F279B51220003BD2F /* TypeCell.swift in Sources */,
 				ECDC634D279AC6960003BD2F /* DemiurgeViewController.swift in Sources */,
 				ECDC6349279AC6960003BD2F /* AppDelegate.swift in Sources */,
 				ECDC636A279B1C430003BD2F /* GradientUtils.swift in Sources */,
 				ECDC6360279ACECB0003BD2F /* DemiurgeView.swift in Sources */,
+				ECDC636C279B39900003BD2F /* DemiurgeCell.swift in Sources */,
 				ECDC634B279AC6960003BD2F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -23,6 +23,7 @@ class DemiurgeView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
+        collectionView.register(DemiurgeCell.self, forCellWithReuseIdentifier: "DemiurgeCell")
         return collectionView
     }()
     
@@ -31,12 +32,14 @@ class DemiurgeView: UIView {
         createButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.setTitleColor(.white, for: .normal)
         createButton.setAttributedTitle(AttributedStringUtils.makeCreateButtonAttributed(), for: .normal)
-        createButton.backgroundColor = ColorSetting.mainBackground.get
-        createButton.layer.cornerRadius = 4
+        createButton.backgroundColor = ColorSetting.createButton.get
+        createButton.layer.cornerRadius = CornerRadius.button.rawValue
         return createButton
     }()
     
-    var gradientLayer = GradientUtils.makePageBackgroundGradient(frame: .zero)
+    var gradientLayer = GradientUtils.makeGradientLayer(frame: .zero,
+                                                        from: ColorSetting.mainBackground.get,
+                                                        to: .black)
     
     private func setupView() {
         layer.insertSublayer(gradientLayer, at: 0)
@@ -128,7 +131,9 @@ private extension DemiurgeView {
         case titleTrailing = 15
         case createButtonLeading = 14
         case createButtonTrailing = -14
-        
-        
+    }
+    
+    enum CornerRadius: CGFloat {
+        case button = 4
     }
 }
