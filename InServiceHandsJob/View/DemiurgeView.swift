@@ -14,8 +14,11 @@ class DemiurgeView: UIView {
     var titleLabel: UILabel = {
         let titleLable = UILabel()
         titleLable.translatesAutoresizingMaskIntoConstraints = false
-        titleLable.textColor = .white
-        titleLable.attributedText = AttributedStringUtils.makeTitlePageAttributed()
+        titleLable.attributedText = AttributedStringUtils
+            .makeAttributedString(text: Text.titleText,
+                                  font: FontSetting.titleBold(size: Size.titleText),
+                                  lineHeight: Size.titleLineHeight,
+                                  textColor: .white)
         return titleLable
     }()
     
@@ -25,15 +28,19 @@ class DemiurgeView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
-        collectionView.register(DemiurgeCell.self, forCellWithReuseIdentifier: "DemiurgeCell")
+        collectionView.register(DemiurgeCell.self, forCellWithReuseIdentifier: Text.cellId)
         return collectionView
     }()
     
     var createButton: UIButton = {
         let createButton = UIButton()
         createButton.translatesAutoresizingMaskIntoConstraints = false
-        createButton.setTitleColor(.white, for: .normal)
-        createButton.setAttributedTitle(AttributedStringUtils.makeCreateButtonAttributed(), for: .normal)
+        let titleButtonAttributedString = AttributedStringUtils
+            .makeAttributedString(text: Text.buttonTitle,
+                                  font: FontSetting.titleBold(size: Size.buttonText),
+                                  lineHeight: Size.buttonTextLineHeight,
+                                  textColor: .white)
+        createButton.setAttributedTitle(titleButtonAttributedString, for: .normal)
         createButton.backgroundColor = ColorSetting.createButton.get
         createButton.layer.cornerRadius = CornerRadius.button
         return createButton
@@ -121,12 +128,23 @@ extension DemiurgeView: UICollectionViewDelegateFlowLayout {
 
 private extension DemiurgeView {
     
+    enum Text {
+        static let titleText = "Клеточное наполнение"
+        static let buttonTitle = "СОТВОРИТЬ"
+        static let cellId = "DemiurgeCell"
+    }
     
     enum Size {
         static let cellHeight: CGFloat = 72
         static let spaceBetweenCell: CGFloat = 4
         static let leftSpaceCell: CGFloat = 16
         static let heightCreateBotton: CGFloat = 36
+        
+        static let titleLineHeight: CGFloat = 28
+        static let buttonTextLineHeight: CGFloat = 14.56
+        static let titleText: CGFloat = 20
+        static let buttonText: CGFloat = 14
+        
     }
     
     enum Constraints {
